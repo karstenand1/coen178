@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SoPrompt Invoice View</title>
+    <link rel="stylesheet" type="text/css" href="formstyle.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+
+    <style type="text/css">
+        a {
+            text-decoration: none;
+        }
+    </style>
+
+    <script>
+        //send comment to DB and update DOM on callback
+        function sendForm() {
+            //create data string
+            var data = $('#toSend').serialize();
+            //send comment to DB
+            $.ajax({
+                type: 'POST',
+                url: '',
+                data: data,
+                success: function(response) {
+                    if (response == "invalid") {
+                        $("#formAlert").show();
+                    } else if (response == "success") {
+                        $("#viewBill").hide();
+                        $("#viewBill").show();
+                    } else {
+                        alert(response);
+                    }
+                }
+            });
+        }
+
+        function updateCart(){
+          var toList="";
+          var dCost=0;
+          $("#cartSpace").empty();
+          if(count[0]){
+            toList += "<p><strong>"+count[0]+" Dixon Ticonderoga Pencil(s) for $0.99   </strong><button type='button' class='btn btn-xs' id='remove' onclick='removeCart(0)'>Remove</button></p>";
+          }
+          tCost=((count[0])*0.99)+((count[1])*1.99)+((count[2])*749.99)+((count[3])*79.99)+((count[4])*139.99)+((count[5])*119.99)+((count[6])*29.99);
+          $("#cartSpace").append(toList);
+          if(discount){
+            dCost=tCost;
+            dCost-=((tCost)*(0.15));
+            var toAddD="<br><br><p><strong>Subtotal: "+(tCost).toFixed(2)+"</strong></p><p>*Apply 15% off*</p><p><strong>Total: "+(dCost).toFixed(2)+"</strong></p>";
+            $('#total').val("");
+            $("#cartSpace").append(toAddD);
+            $('#total').val($('#total').val() + dCost);
+          }
+          else{
+            var toAdd="<br><br><p><strong>Total: "+(tCost).toFixed(2)+"</strong></p>";
+            $('#total').val("");
+            $("#cartSpace").append(toAdd);
+            $('#total').val($('#total').val() + tCost);
+          }
+        }
+
+    </script>
+</head>
+
+<body>
+
+    <div id="topbar">
+        <h2>SoPrompt Services, Inc. </h2>
+        <h1>View Invoice</h1>
+
+
+    </div>
+
+    <div align="center" id="viewRev">
+        <h3>Here is your bill!</h3>
+        <table style="width:100%">
+            <tr>
+                <th>Customer ID</th>
+                <th>Contract ID</th>
+                <th>Cost</th>
+            </tr>
+            <tr id="totalRow">
+                <td colspan="2"><b>Total:</b></td>
+                <td id="total"></td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+
+</html>

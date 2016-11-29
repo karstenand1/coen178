@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SoPrompt Repair Request</title>
+    <link rel="stylesheet" type="text/css" href="formstyle.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+
+    <style type="text/css">
+        a {
+            text-decoration: none;
+        }
+    </style>
+
+    <script>
+        var flag = 0;
+        //send comment to DB and update DOM on callback
+        function sendForm() {
+            //create data string
+            var data = $('#toSend').serialize();
+            //send comment to DB
+            $.ajax({
+                type: 'POST',
+                url: '',
+                data: data,
+                success: function(response) {
+                    if (response == "invalid") {
+                        $("#formAlert").show();
+                    } else if (response == "success") {
+                        $("#formSuccess").show();
+                    } else {
+                        alert(response);
+                    }
+                }
+            });
+
+            function checkWar() {
+                //create data string
+                var data = $('#warranty').serialize();
+                //send comment to DB
+                $.ajax({
+                    type: 'POST',
+                    url: '',
+                    data: data,
+                    success: function(response) {
+                        if (response == "invalid") {
+                            $("#formAlert").show();
+                        } else if (response == "success") {
+                            $("#formSuccess").show(600);
+                            flag = 1;
+                        } else {
+                            alert(response);
+                        }
+                    }
+                });
+            }
+    </script>
+</head>
+
+<body>
+
+    <div id="topbar">
+        <h2>SoPrompt Services, Inc. </h2>
+        <h1>Repair Product Request</h1>
+
+
+    </div>
+
+    <div align="center">
+        <h3>Request Your Repair!</h3>
+        <form id="toSend">
+            <fieldset>
+                </br>
+                <input type="text" name="name" placeholder="Your Name" required>
+                </br>
+                </br>
+                <input type="text" name="product" placeholder="Product ID" required>
+                </br>
+                </br>
+                </br>
+                </br>
+                <input type="submit" value="Submit" onclick="sendForm()">
+            </fieldset>
+        </form>
+        </br>
+        </br>
+        </br>
+        <form id="warranty">
+            <fieldset>
+                <legend>Check Your Warranty</legend>
+                </br>
+                Please check for warranty before applying for a repair job. If you fail to do so, you forfeit your rights to free repair under the terms listed in the warranty agreement.
+                </br>
+                </br>
+                </br>
+                <input type="text" name="product" placeholder="Service ID" required>
+                </br>
+                </br>
+                <input type="submit" value="Submit" onclick="checkWar()">
+            </fieldset>
+        </form>
+
+        <div class="alert success" id="formSuccess">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';" display='none'>&times;</span>
+            <strong>Success!</strong> Indicates a successful or positive action.
+        </div>
+
+
+        <div class="alert warning" id="formAlert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';" display='none'>&times;</span>
+            <strong>Warning!</strong> Indicates a warning that might need attention.
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SoPrompt Register Products</title>
+    <link rel="stylesheet" type="text/css" href="formstyle.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+
+    <style type="text/css">
+        a {
+            text-decoration: none;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function() {
+            $('#sDate').change(function() {
+              var sDate = $('#sDate').val();
+              var dsplit = sDate.split("-");
+              var month = Number(dsplit[1]);
+              var year = Number(dsplit[0]);
+              if (month <= 6) {
+                  month += 6;
+              } else {
+                  var num = 12 - month;
+                  month = 6 - num;
+                  year += 1
+              }
+              var date = String(year) + '-' + (String(0) + month) + '-' + dsplit[2];
+              //var date = $('#sDate').val();
+              console.log(date);
+              $('#eDate').val(date);
+            });
+        });
+
+        //send comment to DB and update DOM on callback
+        function sendForm() {
+            //create data string
+            var data = $('#toSend').serialize();
+            //send comment to DB
+            $.ajax({
+                type: 'POST',
+                url: 'register.php',
+                data: data,
+                success: function(response) {
+                    if (response == "invalid") {
+                        $("#formAlert").show();
+                    } else if (response == "success") {
+                        $("#formSuccess").show();
+                    } else {
+                        alert(response);
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+
+    <div id="topbar">
+        <h2>SoPrompt Services, Inc. </h2>
+        <h1>Product Registry</h1>
+
+
+    </div>
+
+    <div align="center">
+        <h3>Register Your Product(s)!</h3>
+        <form id="toSend">
+            <fieldset>
+                </br>
+                <input type="text" name="name" placeholder="Your Name" required>
+                </br>
+                </br>
+                <input type="text" name="product" placeholder="Product ID" required>
+                </br>
+                </br>
+                </br>
+                Date Purchased: <input type="date" name="date" id="sDate" required>
+                <input type="text" name="eDate" id="eDate">
+                </br>
+                <input type="submit" value="Submit" onclick="sendForm()">
+            </fieldset>
+        </form>
+
+        <div class="alert success" id="formSuccess">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';" display='none'>&times;</span>
+            <strong>Success!</strong> Indicates a successful or positive action.
+        </div>
+
+
+        <div class="alert warning" id="formAlert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';" display='none'>&times;</span>
+            <strong>Warning!</strong> Indicates a warning that might need attention.
+        </div>
+    </div>
+</body>
+
+</html>
