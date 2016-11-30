@@ -5,7 +5,7 @@ drop table Customer;
 drop table ItemGroup;
 drop table Problem;
 drop table Employee;
-drop table Bill;
+drop table ProblemList;
 
 create table Customer (
 	custId char(5) PRIMARY KEY,
@@ -15,6 +15,7 @@ create table Customer (
 
 create table Contract (
 	contractId char(5) PRIMARY KEY,
+	machineId char(5),
 	startDate Date,
 	endDate Date
 );
@@ -40,14 +41,16 @@ create table Employee (
 	phone int
 );
 
-create table Problem(
+create table ProblemList(
 	problemId char(10) PRIMARY KEY,
-	description char(50)
+	description char(50),
+	cost number(10,2)
 );
 
-create table Bill (
-	billId char(5) PRIMARY KEY,
-	totalcost number(10,2)
+create table Problem(
+	problemId char(10),
+	machineId char(5),
+	FOREIGN KEY (problemId) REFERENCES ProblemList(problemId)
 );
 
 create table MachineUnderRepair (
@@ -59,19 +62,19 @@ create table MachineUnderRepair (
 	status char(5),
 	coverage char(1),
 	employeeId char(5),
-	billId char(5),
 	problemId char(10),
+	hours int,
+	model char(20),
 	FOREIGN KEY (custId) REFERENCES Customer(custId),
 	FOREIGN KEY (employeeId) REFERENCES Employee(employeeId),
-	FOREIGN KEY (problemId) REFERENCES Problem(problemId),
-	FOREIGN KEY (billId) REFERENCES Bill(billId)
+	FOREIGN KEY (problemId) REFERENCES ProblemList(problemId)
 );
 
 
 insert into Customer values('c1', 'Francis', 1234567890);
 insert into Customer values('c2', 'Jeremiah', 8884560780);
 
-insert into Contract values('ct1', date '2016-01-15', date '2016-07-15');
+insert into Contract values('ct1', 'm1', date '2016-01-15', date '2016-07-15');
 
 insert into ItemGroup values('g1', 1);
 
