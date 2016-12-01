@@ -1,13 +1,19 @@
-create or replace procedure showStatus
+create or replace function showStatus
 	(machine_param in MachineUnderRepair.machineId%type)
-as
-	stat_var char(1);
+return string is
+    retval varchar(100);
 begin
+    declare
+	stat_var char(5);
+
+	begin
 	select status into stat_var
 	from MachineUnderRepair
 	where machineId = machine_param;
 
-	dbms_output.putline('Status: ' || stat_var);
+	retval:='Status: ' || stat_var;
+	return retval;
+	end;
 end;
 /
 show errors;
