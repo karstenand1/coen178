@@ -17,20 +17,22 @@
   	    print htmlentities($e['message']);
   	    exit;
     }
-
-    $sql="insert into Customer values('$_POST[custId]','$_POST[name]','$_POST[number]')";
+    $r='';
+    $sDate=$_POST['sDate'];
+    $eDate=$_POST['endDate'];
+    $sql="begin :r := generateRevenue(to_date(:sDate, 'YYYY-MM-DD'),to_date(:eDate, 'YYYY-MM-DD')); end;";
     $sqlParse = OCIParse($con, $sql);
-    $result = OCIExecute($sqlParse);
-
-    $sql="call createContract('$_POST[conId]','$_POST[product]',date '$_POST[date]',date '$_POST[eDate]')";
-    $sqlParse = OCIParse($con, $sql);
+    oci_bind_by_name($sqlParse, ':sDate', $sDate);
+    oci_bind_by_name($sqlParse, ':eDate', $eDate);
+    oci_bind_by_name($sqlParse, ':r', $r, 300);
     $result = OCIExecute($sqlParse);
 
     if (!$result){
       echo "invalid";
       exit;
     }
-    echo "success";
+    echo $r;
+
     OCILogoff($con);
 
   }

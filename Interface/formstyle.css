@@ -157,8 +157,20 @@
      border-bottom: black;
      border-bottom-style: solid;
  }
+ input[type="number"] {
+     font-size: 16px;
+     border: none;
+     border-bottom: black;
+     border-bottom-style: solid;
+ }
 
  input[type="date"] {
+     font-size: 16px;
+     border: none;
+     border-bottom: black;
+     border-bottom-style: solid;
+ }
+ #drop {
      font-size: 16px;
      border: none;
      border-bottom: black;
@@ -173,12 +185,33 @@
      border: solid #548452;
      border-radius: 4px;
  }
+ input[type="button"], .button1, .button2 {
+     margin-top: 20px;
+     height: 35px;
+     font-size: 16px;
+     background-color: #a5cea5;
+     border: solid #548452;
+     border-radius: 4px;
+ }
+
+ #drop:focus {
+     outline: none;
+ }
 
  input[type="text"]:focus {
      outline: none;
  }
+ input[type="date"]:focus {
+     outline: none;
+ }
+ input[type="number"]:focus {
+     outline: none;
+ }
 
  input[type="submit"]:hover, .button1:hover, .button2:hover, #sendbutton:hover {
+     background-color: #cfefc1;
+ }
+ input[type="button"]:hover, .button1:hover, .button2:hover, #sendbutton:hover {
      background-color: #cfefc1;
  }
 
@@ -332,5 +365,19 @@
  }
 
  #viewBill {
+     display: none;
+ }
+
+ #conId {
+     display: none;
+ }
+
+ #custId {
+     display: none;
+ }
+ #custInfo {
+     display: none;
+ }
+ #repId {
      display: none;
  }

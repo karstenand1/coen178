@@ -17,20 +17,18 @@
   	    print htmlentities($e['message']);
   	    exit;
     }
-
-    $sql="insert into Customer values('$_POST[custId]','$_POST[name]','$_POST[number]')";
+    $r='';
+    $sql="begin :r := showJobs(); end;";
     $sqlParse = OCIParse($con, $sql);
-    $result = OCIExecute($sqlParse);
-
-    $sql="call createContract('$_POST[conId]','$_POST[product]',date '$_POST[date]',date '$_POST[eDate]')";
-    $sqlParse = OCIParse($con, $sql);
+    oci_bind_by_name($sqlParse, ':r', $r, 300);
     $result = OCIExecute($sqlParse);
 
     if (!$result){
       echo "invalid";
       exit;
     }
-    echo "success";
+    echo $r;
+
     OCILogoff($con);
 
   }

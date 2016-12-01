@@ -14,23 +14,35 @@
     </style>
 
     <script>
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
         $(document).ready(function() {
             $('#sDate').change(function() {
-              var sDate = $('#sDate').val();
-              var dsplit = sDate.split("-");
-              var month = Number(dsplit[1]);
-              var year = Number(dsplit[0]);
-              if (month <= 6) {
-                  month += 6;
-              } else {
-                  var num = 12 - month;
-                  month = 6 - num;
-                  year += 1
-              }
-              var date = String(year) + '-' + (String(0) + month) + '-' + dsplit[2];
-              //var date = $('#sDate').val();
-              console.log(date);
-              $('#eDate').val(date);
+                var sDate = $('#sDate').val();
+                var ran1 = getRandomInt(1, 99999);
+                var conId = String(ran1);
+                var ran2 = getRandomInt(1, 99999);
+                var cust = String(ran2);
+                var dsplit = sDate.split("-");
+                var month = Number(dsplit[1]);
+                var year = Number(dsplit[0]);
+                if (month <= 6) {
+                    month += 6;
+                } else {
+                    var num = 12 - month;
+                    month = 6 - num;
+                    year += 1
+                }
+                var date = String(year) + '-' + (String(0) + month) + '-' + dsplit[2];
+                //var date = $('#sDate').val();
+                console.log(date);
+                $('#custId').val(cust);
+                $('#conId').val(conId);
+                $('#eDate').val(date);
+                $('#customer').val(cust);
+                $('#contract').val(conId);
             });
         });
 
@@ -48,6 +60,7 @@
                         $("#formAlert").show();
                     } else if (response == "success") {
                         $("#formSuccess").show();
+                        $("#custInfo").show();
                     } else {
                         alert(response);
                     }
@@ -71,7 +84,10 @@
         <form id="toSend">
             <fieldset>
                 </br>
-                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="text" name="name" placeholder="Name" required>
+                </br>
+                </br>
+                <input type="text" name="number" placeholder="Phone Number" required>
                 </br>
                 </br>
                 <input type="text" name="product" placeholder="Product ID" required>
@@ -80,21 +96,28 @@
                 </br>
                 Date Purchased: <input type="date" name="date" id="sDate" required>
                 <input type="text" name="eDate" id="eDate">
+                <input type="text" name="conId" id="conId">
+                <input type="text" name="custId" id="custId">
                 </br>
-                <input type="submit" value="Submit" onclick="sendForm()">
+                <input type="button" value="Submit" id="submitBtn" onclick="sendForm()">
             </fieldset>
         </form>
 
         <div class="alert success" id="formSuccess">
             <span class="closebtn" onclick="this.parentElement.style.display='none';" display='none'>&times;</span>
-            <strong>Success!</strong> Indicates a successful or positive action.
+            <strong>Success!</strong> You have registered your product. Your warranty will last for 6 months from date of purchase.
         </div>
 
 
         <div class="alert warning" id="formAlert">
             <span class="closebtn" onclick="this.parentElement.style.display='none';" display='none'>&times;</span>
-            <strong>Warning!</strong> Indicates a warning that might need attention.
+            <strong>Warning!</strong> Something went wrong. Please check the info you added and try again.
         </div>
+        <div id="custInfo">
+          Your Customer ID is:  <input type="text" name="customer" id="customer" disabled>
+          </br>
+          Your Service Id is:   <input type="text" name="contract" id="contract" disabled>
+        <div>
     </div>
 </body>
 

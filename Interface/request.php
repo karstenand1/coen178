@@ -17,12 +17,9 @@
   	    print htmlentities($e['message']);
   	    exit;
     }
-
-    $sql="insert into Customer values('$_POST[custId]','$_POST[name]','$_POST[number]')";
-    $sqlParse = OCIParse($con, $sql);
-    $result = OCIExecute($sqlParse);
-
-    $sql="call createContract('$_POST[conId]','$_POST[product]',date '$_POST[date]',date '$_POST[eDate]')";
+    $today = date("H:i:s");
+    $one="1";
+    $sql="call createRepairJob('$_POST[contract]', '$_POST[rId]', '$_POST[cust]' , '$_POST[product]' , $today , $one , '$_POST[employee]' , '$_POST[prob]' , '$_POST[model]')";
     $sqlParse = OCIParse($con, $sql);
     $result = OCIExecute($sqlParse);
 

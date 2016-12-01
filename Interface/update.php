@@ -18,11 +18,7 @@
   	    exit;
     }
 
-    $sql="insert into Customer values('$_POST[custId]','$_POST[name]','$_POST[number]')";
-    $sqlParse = OCIParse($con, $sql);
-    $result = OCIExecute($sqlParse);
-
-    $sql="call createContract('$_POST[conId]','$_POST[product]',date '$_POST[date]',date '$_POST[eDate]')";
+    $sql="call updateStatus('$_POST[rid]','$_POST[stat]','$_POST[hour]')";
     $sqlParse = OCIParse($con, $sql);
     $result = OCIExecute($sqlParse);
 

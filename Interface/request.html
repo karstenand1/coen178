@@ -14,7 +14,15 @@
     </style>
 
     <script>
-        var flag = 0;
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+        function createRep(){
+          var ran = getRandomInt(1, 99999);
+          var repId = String(ran);
+          $('#repId').val(repId);
+        }
         //send comment to DB and update DOM on callback
         function sendForm() {
             //create data string
@@ -22,7 +30,7 @@
             //send comment to DB
             $.ajax({
                 type: 'POST',
-                url: '',
+                url: 'request.php',
                 data: data,
                 success: function(response) {
                     if (response == "invalid") {
@@ -34,27 +42,7 @@
                     }
                 }
             });
-
-            function checkWar() {
-                //create data string
-                var data = $('#warranty').serialize();
-                //send comment to DB
-                $.ajax({
-                    type: 'POST',
-                    url: '',
-                    data: data,
-                    success: function(response) {
-                        if (response == "invalid") {
-                            $("#formAlert").show();
-                        } else if (response == "success") {
-                            $("#formSuccess").show(600);
-                            flag = 1;
-                        } else {
-                            alert(response);
-                        }
-                    }
-                });
-            }
+        }
     </script>
 </head>
 
@@ -72,32 +60,39 @@
         <form id="toSend">
             <fieldset>
                 </br>
-                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="text" name="name" placeholder="Your Name" onclick="createRep()" required>
+                </br>
+                </br>
+                <input type="text" name="contract" placeholder="Service ID" required>
+                </br>
+                </br>
+                <input type="text" name="cust" placeholder="Customer ID" required>
                 </br>
                 </br>
                 <input type="text" name="product" placeholder="Product ID" required>
                 </br>
                 </br>
+                <input id="drop" name="prob" list="Problems" placeholder="Problems" required>
+                <datalist id="Problems">
+                    <option value="p1">
+                    <option value="p2">
+                    <option value="p3">
+                    <option value="p4">
+                </datalist>
                 </br>
                 </br>
-                <input type="submit" value="Submit" onclick="sendForm()">
-            </fieldset>
-        </form>
-        </br>
-        </br>
-        </br>
-        <form id="warranty">
-            <fieldset>
-                <legend>Check Your Warranty</legend>
-                </br>
-                Please check for warranty before applying for a repair job. If you fail to do so, you forfeit your rights to free repair under the terms listed in the warranty agreement.
+                <input id="drop" name="employee" list="Employees" placeholder="Employees" required>
+                <datalist id="Employees">
+                  <option value="e1">
+                  <option value="e2">
+                  <option value="e3">
+                </datalist>
                 </br>
                 </br>
+                <input type="text" name="model" placeholder="Model" required>
                 </br>
-                <input type="text" name="product" placeholder="Service ID" required>
-                </br>
-                </br>
-                <input type="submit" value="Submit" onclick="checkWar()">
+                <input type="text" name="rId" id="repId">
+                <input type="button" value="Submit" onclick="sendForm()">
             </fieldset>
         </form>
 

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>SoPrompt Invoice View</title>
+    <title>SoPrompt Update Jobs</title>
     <link rel="stylesheet" type="text/css" href="formstyle.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 
@@ -14,6 +14,7 @@
     </style>
 
     <script>
+
         //send comment to DB and update DOM on callback
         function sendForm() {
             //create data string
@@ -21,46 +22,19 @@
             //send comment to DB
             $.ajax({
                 type: 'POST',
-                url: '',
+                url: 'update.php',
                 data: data,
                 success: function(response) {
                     if (response == "invalid") {
                         $("#formAlert").show();
                     } else if (response == "success") {
-                        $("#viewBill").hide();
-                        $("#viewBill").show();
+                        $("#formSuccess").show();
                     } else {
                         alert(response);
                     }
                 }
             });
         }
-
-        function updateCart(){
-          var toList="";
-          var dCost=0;
-          $("#cartSpace").empty();
-          if(count[0]){
-            toList += "<p><strong>"+count[0]+" Dixon Ticonderoga Pencil(s) for $0.99   </strong><button type='button' class='btn btn-xs' id='remove' onclick='removeCart(0)'>Remove</button></p>";
-          }
-          tCost=((count[0])*0.99)+((count[1])*1.99)+((count[2])*749.99)+((count[3])*79.99)+((count[4])*139.99)+((count[5])*119.99)+((count[6])*29.99);
-          $("#cartSpace").append(toList);
-          if(discount){
-            dCost=tCost;
-            dCost-=((tCost)*(0.15));
-            var toAddD="<br><br><p><strong>Subtotal: "+(tCost).toFixed(2)+"</strong></p><p>*Apply 15% off*</p><p><strong>Total: "+(dCost).toFixed(2)+"</strong></p>";
-            $('#total').val("");
-            $("#cartSpace").append(toAddD);
-            $('#total').val($('#total').val() + dCost);
-          }
-          else{
-            var toAdd="<br><br><p><strong>Total: "+(tCost).toFixed(2)+"</strong></p>";
-            $('#total').val("");
-            $("#cartSpace").append(toAdd);
-            $('#total').val($('#total').val() + tCost);
-          }
-        }
-
     </script>
 </head>
 
@@ -68,39 +42,46 @@
 
     <div id="topbar">
         <h2>SoPrompt Services, Inc. </h2>
-        <h1>View Invoice</h1>
+        <h1>Update Jobs</h1>
 
 
     </div>
 
-    <div align="center" id="checkBill">
-        <h3>Enter Customer ID to view your bill!</h3>
+    <div align="center">
+        <h3>Update your job(s)!</h3>
         <form id="toSend">
             <fieldset>
                 </br>
-                <input type="text" name="name" placeholder="Customer ID" required>
+                <input type="text" name="rid" placeholder="Repair ID" required>
                 </br>
                 </br>
+                <input id="drop" name="stat" list="Status" placeholder="Status" required>
+                <datalist id="Status">
+                  <option value="1">
+                  <option value="2">
+                  <option value="3">
+                    <option value="3">
+                </datalist>
                 </br>
-                <input type="submit" value="Submit" onclick="sendForm()">
+                </br>
+                <input type="number" name="hour" placeholder="Total Hours" required>
+                </br>
+                </br>
+                <input type="button" value="Submit" id="submitBtn" onclick="sendForm()">
             </fieldset>
         </form>
-    </div>
-    <div align="center" id="viewBill">
-        <h3>Here is your bill!</h3>
-        <table style="width:100%">
-            <tr>
-                <th>Customer ID</th>
-                <th>Contract ID</th>
-                <th>Cost</th>
-            </tr>
-            <tr id="totalRow">
-                <td colspan="2"><b>Total:</b></td>
-                <td id="total"></td>
-            </tr>
-        </table>
-    </div>
 
+        <div class="alert success" id="formSuccess">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';" display='none'>&times;</span>
+            <strong>Success!</strong> You have updated the job!
+        </div>
+
+
+        <div class="alert warning" id="formAlert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';" display='none'>&times;</span>
+            <strong>Warning!</strong> Something went wrong. Please check the info you added and try again.
+        </div>
+    </div>
 </body>
 
 </html>
