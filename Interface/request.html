@@ -23,6 +23,7 @@
             var ran = getRandomInt(1, 99999);
             var repId = String(ran);
             $('#repId').val(repId);
+            $('#formSuccess').append(repId);
             var num = getRandomInt(1, 99999) % 3;
             console.log(num);
             if (num == 0) {
@@ -109,7 +110,7 @@
 
         <div class="alert success" id="formSuccess">
             <span class="closebtn" onclick="this.parentElement.style.display='none';" display='none'>&times;</span>
-            <strong>Success!</strong> Your machine has been accepted for repair!
+            <strong>Success!</strong> Your machine has been accepted for repair! Your Repair ID is:
         </div>
 
 
@@ -129,15 +130,15 @@
             </tr>
             <tr>
                 <td class="leftcol">p2</td>
-                <td class="rightcol">Broken Monitor - $60.00 </td>
+                <td class="rightcol">Crashed HardDrive - $60.00 </td>
             </tr>
             <tr>
                 <td class="leftcol">p3</td>
-                <td class="rightcol">Broken Monitor - $150.00 </td>
+                <td class="rightcol">Spontaneous Combustion - $150.00 </td>
             </tr>
             <tr>
                 <td class="leftcol">p4</td>
-                <td class="rightcol">Broken Monitor - $45.00 </td>
+                <td class="rightcol">Keyboard Malfunction - $45.00 </td>
             </tr>
         </table>
     </div>
