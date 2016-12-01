@@ -37,15 +37,17 @@
                   else {
                     $("#checkBill").hide();
                     $("#viewBill").show();
+                    console.log(response);
                     var result=response.split(':');
+                    console.log(result[0]);
+                    console.log(result[1]);
                     $("#rid").append('<strong>');
                     $("#rid").append(result[0]);
                     $("#rid").append('</strong>');
                     var jobs=result[1].split(',');
+                    console.log(jobs[0]);
                     for (var i=0; i<jobs.length; i++){
-                      $("#bill").append('<tr><td colspan="3">');
-                      $("#bill").append(jobs[i]);
-                      $("#bill").append('</td></tr>');
+                      $("#bill").append('<tr><td colspan="3">'+jobs[i]+'</td></tr>');
                     }
                   }
                 }

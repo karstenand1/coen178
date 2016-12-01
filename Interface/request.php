@@ -17,9 +17,10 @@
   	    print htmlentities($e['message']);
   	    exit;
     }
-    $today = date("H:i:s");
+
+    $today = date('Ymd');
     $one="1";
-    $sql="call createRepairJob('$_POST[contract]', '$_POST[rId]', '$_POST[cust]' , '$_POST[product]' , $today , $one , '$_POST[employee]' , '$_POST[prob]' , '$_POST[model]')";
+    $sql="call createRepairJob('$_POST[contract]', '$_POST[rId]', '$_POST[cust]' , '$_POST[product]' ,to_date($today, 'YYYY-MM-DD'), $one, '$_POST[employee]' , '$_POST[prob]' , '$_POST[model]')";
     $sqlParse = OCIParse($con, $sql);
     $result = OCIExecute($sqlParse);
 

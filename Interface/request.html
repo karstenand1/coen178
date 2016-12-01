@@ -14,25 +14,40 @@
     </style>
 
     <script>
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
 
-        function createRep(){
-          var ran = getRandomInt(1, 99999);
-          var repId = String(ran);
-          $('#repId').val(repId);
+        function createRep() {
+            console.log('a');
+            var ran = getRandomInt(1, 99999);
+            var repId = String(ran);
+            $('#repId').val(repId);
+            var num = getRandomInt(1, 99999) % 3;
+            console.log(num);
+            if (num == 0) {
+                console.log('b');
+                $('#emp').val('e1');
+            } else if (num == 1) {
+                console.log('c');
+                $('#emp').val('e2');
+            } else if (num == 2) {
+                console.log('d');
+                $('#emp').val('e3');
+            }
         }
         //send comment to DB and update DOM on callback
         function sendForm() {
             //create data string
             var data = $('#toSend').serialize();
+            console.log(data);
             //send comment to DB
             $.ajax({
                 type: 'POST',
                 url: 'request.php',
                 data: data,
                 success: function(response) {
+                    console.log('hello');
                     if (response == "invalid") {
                         $("#formAlert").show();
                     } else if (response == "success") {
@@ -40,6 +55,10 @@
                     } else {
                         alert(response);
                     }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert("This machine has already been entered. Please enter a new machine");
+                    console.log(errorThrown);
                 }
             });
         }
@@ -54,13 +73,12 @@
 
 
     </div>
-
     <div align="center">
         <h3>Request Your Repair!</h3>
         <form id="toSend">
             <fieldset>
                 </br>
-                <input type="text" name="name" placeholder="Your Name" onclick="createRep()" required>
+                <input type="text" name="name" placeholder="Your Name" required>
                 </br>
                 </br>
                 <input type="text" name="contract" placeholder="Service ID" required>
@@ -69,7 +87,7 @@
                 <input type="text" name="cust" placeholder="Customer ID" required>
                 </br>
                 </br>
-                <input type="text" name="product" placeholder="Product ID" required>
+                <input type="text" name="product" placeholder="Product ID" onclick="createRep()" required>
                 </br>
                 </br>
                 <input id="drop" name="prob" list="Problems" placeholder="Problems" required>
@@ -81,16 +99,9 @@
                 </datalist>
                 </br>
                 </br>
-                <input id="drop" name="employee" list="Employees" placeholder="Employees" required>
-                <datalist id="Employees">
-                  <option value="e1">
-                  <option value="e2">
-                  <option value="e3">
-                </datalist>
-                </br>
-                </br>
                 <input type="text" name="model" placeholder="Model" required>
                 </br>
+                <input type="text" name="employee" id="emp">
                 <input type="text" name="rId" id="repId">
                 <input type="button" value="Submit" onclick="sendForm()">
             </fieldset>
@@ -98,14 +109,37 @@
 
         <div class="alert success" id="formSuccess">
             <span class="closebtn" onclick="this.parentElement.style.display='none';" display='none'>&times;</span>
-            <strong>Success!</strong> Indicates a successful or positive action.
+            <strong>Success!</strong> Your machine has been accepted for repair!
         </div>
 
 
         <div class="alert warning" id="formAlert">
             <span class="closebtn" onclick="this.parentElement.style.display='none';" display='none'>&times;</span>
-            <strong>Warning!</strong> Indicates a warning that might need attention.
+            <strong>Warning!</strong> Something went wrong. Please check the info you added and try again.
         </div>
+    </div>
+  </br>
+  </br>
+    <div class="formleft">
+        <table id="scroller" class="condense rightfollow">
+
+            <tr>
+                <td class="leftcol">p1</td>
+                <td class="rightcol">Broken Monitor - $100.00 </td>
+            </tr>
+            <tr>
+                <td class="leftcol">p2</td>
+                <td class="rightcol">Broken Monitor - $60.00 </td>
+            </tr>
+            <tr>
+                <td class="leftcol">p3</td>
+                <td class="rightcol">Broken Monitor - $150.00 </td>
+            </tr>
+            <tr>
+                <td class="leftcol">p4</td>
+                <td class="rightcol">Broken Monitor - $45.00 </td>
+            </tr>
+        </table>
     </div>
 </body>
 
